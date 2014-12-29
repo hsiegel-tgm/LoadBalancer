@@ -4,6 +4,7 @@ import server.Server;
 import server.SimulateServers;
 import client.Client;
 import client.SimulateClients;
+import balancer.AgentBasedAdaptive;
 import balancer.WeightedRR;
 
 public class Starter {
@@ -20,7 +21,7 @@ public class Starter {
 
 			}
 			else{
-				new AgendBasedAdaptive("aba-loadbalancingserver");
+				new AgentBasedAdaptive("aba-loadbalancingserver");
 				new SimulateServers("127.0.0.1","aba-loadbalancingserver",10);
 				new SimulateClients("127.0.0.1","aba-loadbalancingserver",20);
 			}
