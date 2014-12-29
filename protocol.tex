@@ -1,0 +1,120 @@
+\documentclass[12pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{ulem}
+\usepackage{caption}
+\usepackage{placeins}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{fixltx2e}
+\usepackage{scrpage2}
+\usepackage{lastpage}
+\clearscrheadfoot
+\pagestyle{scrheadings}
+\usepackage{glossaries}
+\usepackage[
+top    = 2.75cm,
+bottom = 2.00cm,
+left   = 2.50cm,
+right  = 2.00cm]{geometry}
+\setcounter{secnumdepth}{4}
+
+
+\makeglossaries
+
+\newglossaryentry{glossaryVerweis} {name=abkuerzung, description={Langer Name}}
+
+
+\begin{document}
+\begin{titlepage}
+\begin{center}
+% Oberer Teil der Titelseite:
+\includegraphics[width=0.5\textwidth]{images/logo}\\[1cm]    
+
+\textsc{\LARGE Technologisches Gewerbe Museum}\\[1.5cm]
+
+% Title
+\rule{1.0\textwidth}{1mm}
+{ \huge \bfseries  \\\large VSDB \\ \huge Load Balancing \\[0.4cm] }
+
+\rule{1.0\textwidth}{1mm}
+
+% Author and supervisor
+\noindent 
+\vspace{7cm}
+
+\begin{center}
+\large
+Author: 
+Siegel \textsc{Hannah} \&
+Soyka \textsc{Wolfram}
+\end{center}
+
+\vfill
+
+% Bottom of the page
+{\large \today}
+
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+
+
+%HEADER AND FOOTER
+\pagenumbering{arabic}
+\ohead{\headmark}
+\automark{section}
+\ifoot{© Siegel, Soyka}
+\ofoot{\pagemark ~of \pageref{LastPage}}
+
+\newpage
+
+
+
+\section{Working time}
+
+\textbf{Estimated working time}
+\begin{center}
+\begin{table}[h]
+
+\begin{tabular}{|p{0.5\textwidth}|p{0.2\textwidth}|p{0.2\textwidth}|}
+\hline
+\textbf{Task}    & \textbf{Person}                                               & \textbf{Time in hours                              } \\ \hline \hline
+UML & \begin{tabular}[c]{c}Siegel \\ Soyka \end{tabular} & \begin{tabular}[c]{c}1\\ 0\end{tabular}    \\ \hline 
+Basic Load Balancing Scaffold & \begin{tabular}[c]{c}Siegel \\ Soyka \end{tabular} & \begin{tabular}[c]{c}1\\ 1\end{tabular}    \\ \hline 
+Weighted Round Robin & \begin{tabular}[c]{c}Siegel \\ Soyka \end{tabular} & \begin{tabular}[c]{c}1\\ 1\end{tabular}    \\ \hline 
+Agent Based Adaptive & \begin{tabular}[c]{c}Siegel \\ Soyka \end{tabular} & \begin{tabular}[c]{c}2\\ 2\end{tabular}    \\ \hline 
+Session Persistence & \begin{tabular}[c]{c}Siegel \\ Soyka \end{tabular} & \begin{tabular}[c]{c}2\\ 1\end{tabular}    \\ \hline 
+Testing CPU & \begin{tabular}[c]{c}Siegel \\ Soyka \end{tabular} & \begin{tabular}[c]{c}2\\ 0\end{tabular}    \\ \hline 
+Testing RAM & \begin{tabular}[c]{c}Siegel \\ Soyka \end{tabular} & \begin{tabular}[c]{c}0\\ 2\end{tabular}    \\ \hline 
+Testing I/O (Harddisk) & \begin{tabular}[c]{c}Siegel \\ Soyka \end{tabular} & \begin{tabular}[c]{c}2\\ 1\end{tabular}    \\ \hline 
+Testing & \begin{tabular}[c]{c}Siegel \\ Soyka \end{tabular} & \begin{tabular}[c]{c}3 \\ 2\end{tabular}    \\ \hline 
+Final Documentation & \begin{tabular}[c]{c}Siegel \\ Soyka \end{tabular} & \begin{tabular}[c]{c}2\\ 1\end{tabular}    \\ \hline \hline
+
+
+Total & \begin{tabular}[c]{c}Siegel\\ Soyka\end{tabular} & \begin{tabular}[c]{c}16\\11\end{tabular}   \\ \hline 
+\textbf{Total Team} & & \textbf{27 hours}  \\ \hline 
+\end{tabular}
+\end{table}
+\end{center}
+
+\newpage
+%\listoftables
+%\listoffigures
+%\printglossaries
+
+\subsection{Easy Bibliography}
+\begin{thebibliography}{56}
+ 
+ \bibitem{example} 
+  \textbf{Mister Super-genious}, Answer from 20.01.2015\\
+  \textit{http://www.stackoverflow.com/question}
+  \newline last used: 22.10.2014, 21:00
+\end{thebibliography}
+\end{document}
