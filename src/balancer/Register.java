@@ -6,8 +6,9 @@ import java.rmi.RemoteException;
 
 import server.Calculator;
 import server.Server;
+import server.ServerCalculator;
 
 public interface Register extends Serializable {
-	public void register(Server c,String name)  throws RemoteException;
-	public void unregister(Server c,String name)  throws RemoteException;
+	public void register(ServerCalculator c,String name)  throws RemoteException;
+	public void unregister(ServerCalculator c,String name)  throws RemoteException;
 }
