@@ -106,7 +106,15 @@ public class Starter {
 		Log.setIntensity(log_int);
 		
 		System.out.print("You are done. Starting the program.");
-		
+		for(int i = 0; i<5; ++i){
+			try {
+				Thread.sleep(333);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.print(".");
+		}			
+		System.out.print("\n");
 		
 		switch (service) {
 		 case "all":
@@ -212,75 +220,4 @@ public class Starter {
 		return answer;
 	}
 	
-	
-		
-//		if( checkArguments(arg) ) {
-//			try {
-//				getLoggingData();
-//			} catch (IOException e) {
-//				System.exit(-1);
-//			}
-//			
-//			Log.debug("ready?");
-//			
-//		}else{
-//			printUsage();
-//		}
-//		
-		
-//		
-//		
-//		
-//		System.exit(-1);
-//		
-//		if( checkArguments(arg) ) {
-//			if(arg[1].equals("wrr")){
-//				new WeightedRR("wrr-loadbalancingserver","");
-//				new SimulateServers("127.0.0.1","wrr-loadbalancingserver",10,0); //starting 10 Servers at the same time
-//				new SimulateClients("127.0.0.1","wrr-loadbalancingserver",20,0); //starting 20 Clients at the same time
-//			}
-//			else{
-//				new AgentBasedAdaptive("aba-loadbalancingserver");
-//				new SimulateClients("127.0.0.1","aba-loadbalancingserver",20,1); //starting 4 Clients with an delay of 2000 sec
-//				new SimulateServers("127.0.0.1","aba-loadbalancingserver",5,7); //starting 2 Servers with an delay of 7000 sec
-//			}
-//		}
-//		
-//	}
-//	
-	
-	
-//	
-//
-//	public static boolean checkArguments(String arg[]) {
-//		if(arg.length >= 2 && arg[0].equals("-m") == true && arg[1].length() > 0){
-//			String method = arg[1];
-//			if (method.equalsIgnoreCase("wrr") || method.equalsIgnoreCase("aba")  )
-//				return false;
-//		}
-//		return false;
-//	}
-//	
-//	public static void printUsage() {
-//		System.out.println("The following parameters are availiable: \n -s -m -t -sp -i -li -la -lr -D -C -L");
-//		
-//		System.out.println("\n   -s service{ss|sc|s|c|lb|all}         - specifies the service to be started. all is starting a load balancer, clients and a server");
-//		System.out.println("   -m  method{wrr|aba}                    - which method should be used (Weighted Round Robin or Agent Based Adaptive)");
-//		System.out.println("   -t  type{normal|cpu|ram|io|mixed}  	  - The type/service which should be done. Mixed is starting all the services randomly ");
-//		System.out.println("   -sp session-persistance{true|false}    - If session persistance should be done");
-//		System.out.println("   -i  intensity{low|normal|high}         - The intensity with which the clients will revoke requests");
-//		System.out.println("   -li logging-intensity{min|normal|max}  - Logging intensity (min is only logging major things, max everything)");
-//		System.out.println("   -la log-algorithm{true|false}          - True when the Load Balancing Algorithm should be logged, false otherwise");
-//		System.out.println("   -lr log-results{true|false}            - True when the results(pi) should be printed out");
-//		System.out.println("   -D                                     - Default config will be used for the parameters that have not been given (only the -s and the -m parameter if using a loadbalancer is necessary)");
-//		System.out.println("   -C                                     - System dialog will be used to ask for the parameters that have not been given");
-//		System.out.println("   -L                                     - Default config will be used for the logging parameters");
-//
-//		System.out.println(" \n \n");
-//		System.out.println(" For Example: \n");
-//		System.out.println("-s all -m wrr -t normal -sp false -i low -li min -la true -lr false");
-//		System.out.println("-s all -m aba -t cpu -sp true -i high -L");
-//		System.out.println("-s lb -m wrr -D");
-//		System.out.println("-C");
-//	}
 }
