@@ -48,11 +48,17 @@ public class Client implements Runnable {
 		while(true){
 			try {
 				Thread.sleep(m_intensity);
-				BigDecimal pi =  m_balancer.pi(m_digits,m_type,this.getName()); //TODO this oder thread?
+				BigDecimal pi = null;
+				if(turns % 7 == 0)
+					pi = m_balancer.pi(m_type,this.getName()); //TODO this oder thread?
+				else	
+					pi = m_balancer.pi(m_digits,m_type,this.getName()); //TODO this oder thread?
+				
 				if(pi!= null)
 					Log.logRes(m_clientname+ " got a response: " + pi.toEngineeringString());
 				else
 					Log.warn("Client didn't get any response");
+				
 				turns ++;
 				if(turns % 5 == 0){
 					int multiplicator = (int)((Math.random()*3))-1;

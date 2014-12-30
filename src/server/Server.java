@@ -62,7 +62,14 @@ public class Server implements ServerCalculator{
 
 	public BigDecimal pi(Type type,String c) throws RemoteException {
 		Log.logAlg(m_servername+" just got a request from "+c);
+		if(m_session_clients.containsKey(c)){
+			int digits = m_session_clients.get(c);
+			Log.logSession(m_servername+" got an request from "+c+" . He didn't specify the digits, so he took "+digits+ "digits");
+			return m_calc.pi(digits,type,c);
+		}			
+		Log.logSession(m_servername+" got an request from "+c+" . It was his first request and therefore he couldnt specify any digits.");
 		return m_calc.pi(type,c);
+
 	}
 
 	public BigDecimal pi(int digits, Type type,String c) throws RemoteException {

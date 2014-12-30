@@ -46,7 +46,7 @@ public class Log {
     
     public static void logSession(String message) {
     	String a = ( new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ) ).format( Calendar.getInstance().getTime() );
-    	if(m_normal)
+    	if(m_session)
     		System.out.println(a+" [SESSION]: "+message);		
 	}
     

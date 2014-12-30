@@ -31,8 +31,8 @@ public class Starter {
 		String service = "all"; //default: all
 		String method = "wrr"; //default: wrr
 		String type = "normal"; //default: normal
-		String sp = "Y"; //default: Y
-		int intensity = 5; // NO ?? default: 5sec
+		String sp = "N"; //default: Y
+		int intensity = 5; // NO ?? defsysault: 5sec
 		String log_int = "normal"; //default
 		String log_alg = "n"; //default: N
 		String log_res = "n"; //default: N
@@ -110,6 +110,14 @@ public class Starter {
 
 		Log.setIntensity(log_int);
 		
+		 boolean session_per=false;
+	 	   if(sp.equalsIgnoreCase("y"))
+			   session_per = true;
+		   else
+			   session_per = false;
+		
+	 	   Log.setSessionLogging(session_per);
+		
 		System.out.print("You are done. Starting the program.");
 		for(int i = 0; i<5; ++i){
 			try {
@@ -120,16 +128,11 @@ public class Starter {
 			System.out.print(".");
 		}			
 		System.out.print("\n");
- 	   boolean session_per=false;
-
+ 	  
+	 
 		switch (service) {
 		 case "all":
-	    	   if(sp.equalsIgnoreCase("y"))
-	    		   session_per = true;
-	    	   else
-	    		   session_per = false;
-			
-	    	 Log.setSessionLogging(session_per);
+	    	  
 
 			 if(method.equals("wrr")){
 	           		new WeightedRR(name,session_per);
@@ -144,12 +147,6 @@ public class Starter {
 			break;
 	            
        case "lb":
-    	   	if(sp.equalsIgnoreCase("y"))
-    		   session_per = true;
-    	   	else
-    		   session_per = false;
-			Log.setSessionLogging(session_per);
-
     	   	if(method.equals("wrr")){
            		new WeightedRR(name,session_per);
     	   	}else{
@@ -178,6 +175,8 @@ public class Starter {
     		new Server("127.0.0.1","wrr-loadbalancingserver", 5, "Server1");
     		new Client("127.0.0.1","wrr-loadbalancingserver", 2, "Client2",6,Type.NORMAL);
     		new Server("127.0.0.1","wrr-loadbalancingserver", 3, "Server2");
+			Log.setSessionLogging(true);
+
 			// new SimulateClients("127.0.0.1","aba-loadbalancingserver",20,1); //starting 4 Clients with an delay of 2000 sec
 			// new SimulateServers("127.0.0.1","aba-loadbalancingserver",5,7); //starting 2 Servers with an delay of 7000 sec
            break;
