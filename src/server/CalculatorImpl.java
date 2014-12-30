@@ -2,6 +2,7 @@ package server;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
 
 public class CalculatorImpl implements Calculator, Serializable {
 
@@ -61,7 +62,7 @@ public class CalculatorImpl implements Calculator, Serializable {
 		return result;
 	}
 
-	public BigDecimal pi(int digits) {
+	public BigDecimal pi(int digits,Type type) {
 		// setting the server busy
 		m_busy = true;
 		// computing PI
@@ -76,9 +77,9 @@ public class CalculatorImpl implements Calculator, Serializable {
 		return m_busy;
 	}
 
-	public BigDecimal pi() {
+	public BigDecimal pi(Type type) {
 		int digits = (int)((Math.random()*1000)+1);
-		return pi(digits);
+		return pi(digits,type);
 	}
 
 	public BigDecimal pi_cpu() {
@@ -96,5 +97,4 @@ public class CalculatorImpl implements Calculator, Serializable {
 	public BigDecimal pi_sessionPers() {
 		return null;
 	}
-
 }

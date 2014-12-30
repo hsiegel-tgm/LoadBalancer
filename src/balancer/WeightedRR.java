@@ -129,11 +129,11 @@ public class WeightedRR implements Balancer {
 	}
 	
 	
-	public BigDecimal pi() throws RemoteException{
+	public BigDecimal pi(Type type) throws RemoteException{
 		Log.logMax("LB got the request ... ");
 		ServerCalculator server_choosen = chooseServer();
 		if(server_choosen != null)
-			return server_choosen.pi();
+			return server_choosen.pi(type);
 		else
 			return null;
 	}
@@ -167,11 +167,11 @@ public class WeightedRR implements Balancer {
 		return null;
 	}
 
-	public BigDecimal pi(int digits) throws RemoteException {
+	public BigDecimal pi(int digits,Type type) throws RemoteException {
 		Log.logMax("LB got the request ... ");
 		ServerCalculator server_choosen = chooseServer();
 		if(server_choosen != null)
-			return server_choosen.pi(digits);
+			return server_choosen.pi(digits,type);
 		else
 			return null;
 	}

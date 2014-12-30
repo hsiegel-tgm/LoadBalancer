@@ -1,5 +1,7 @@
 package client;
 
+import server.Calculator.Type;
+
 
 public class SimulateClients {
 	public SimulateClients(String loadbalancerIP, String loadbalancerName,int num,int delay_sec)  {
@@ -21,7 +23,7 @@ public class SimulateClients {
 			}
 			
 			int intensivity_sec = (int)(Math.random()*10)+1;
-			new Client(loadbalancerIP,loadbalancerName,intensivity_sec,"Client"+i,0);
+			new Client(loadbalancerIP,loadbalancerName,intensivity_sec,"Client"+i,0,Type.NORMAL); //TODO type
 		}
 	}
 }

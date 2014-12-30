@@ -7,6 +7,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+import server.Calculator.Type;
 import main.Log;
 import balancer.Balancer;
 
@@ -16,8 +17,9 @@ public class Client implements Runnable {
 	private int m_intensity;
 	private String m_clientname;
 	private int m_digits;
+	private Type m_type;
 
-	public Client(String loadbalancerIP, String loadbalancerName, int intensity,String clientname,int digits) {
+	public Client(String loadbalancerIP, String loadbalancerName, int intensity,String clientname,int digits,Type type) {
 		this.m_intensity = intensity*1000;
 		this.m_clientname = clientname;
 		
@@ -45,7 +47,7 @@ public class Client implements Runnable {
 		while(true){
 			try {
 				Thread.sleep(m_intensity);
-				BigDecimal pi =  m_balancer.pi(m_digits);
+				BigDecimal pi =  m_balancer.pi(m_digits,m_type);
 				if(pi!= null)
 					Log.logRes(m_clientname+ " got a response: " + pi.toEngineeringString());
 				else

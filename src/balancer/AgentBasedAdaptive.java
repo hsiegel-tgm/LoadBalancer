@@ -177,18 +177,18 @@ public class AgentBasedAdaptive implements Balancer{
 	}
 		
 	
-	public BigDecimal pi() {
+	public BigDecimal pi(Type type) {
 		Log.logMax("LB got the request ... ");
 		
 		if ( m_servers.size() <= 0){
 			Log.logMax("There is no server which could handle this request!");
-			return new CalculatorImpl().pi(); //TODO is this the right thing to do??
+			return new CalculatorImpl().pi(type); //TODO is this the right thing to do??
 		}else{
 			
 			ServerCalculator server_choosen =null;
 			try {
 				server_choosen = getServer();
-				return server_choosen.pi();
+				return server_choosen.pi(type);
 			} catch (RemoteException e1) {
 				Log.error("There was an problem while communicating with the Servers");
 				return null;
@@ -223,11 +223,14 @@ public class AgentBasedAdaptive implements Balancer{
 		return null;
 	}
 
-	
+	public BigDecimal pi(int digits,Type type) throws RemoteException {
+		Log.logMax("LB got the request ... ");
+		ServerCalculator server_choosen = getServer();
+		if(server_choosen != null)
+			return server_choosen.pi(digits,type);
+		else
+			return null;
 
-	@Override
-	public BigDecimal pi(int digits) throws RemoteException {
-		return null;
 	}
 	
 }

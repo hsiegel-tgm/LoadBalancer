@@ -29,7 +29,7 @@ public class Server implements ServerCalculator{
 			m_balancer = (Balancer) registry.lookup(loadbalancerName);
 			
 		} catch (RemoteException e) {
-			Log.error("There was a remote error, could not find registry on "+loadbalancerIP+ " with the name" + loadbalancerName);
+			Log.error("There was a remote error, could not find registry on "+loadbalancerIP);
 		} catch (NotBoundException e) {
 			Log.error("Server not bound: "+loadbalancerName);
 			System.exit(-1);
@@ -75,13 +75,13 @@ public class Server implements ServerCalculator{
 		return null;
 	}
 
-	public BigDecimal pi() throws RemoteException {
+	public BigDecimal pi(Type type) throws RemoteException {
 		Log.logAlg(m_servername+": Just got a request!");
-		return m_calc.pi();
+		return m_calc.pi(type);
 	}
 
-	public BigDecimal pi(int digits) throws RemoteException {
+	public BigDecimal pi(int digits, Type type) throws RemoteException {
 		Log.logAlg(m_servername+": Just got a request!");
-		return m_calc.pi(digits);
+		return m_calc.pi(digits,type);
 	}
 }

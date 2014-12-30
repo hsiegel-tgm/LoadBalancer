@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import server.Calculator.Type;
 import server.Server;
 import server.SimulateServers;
 import client.Client;
@@ -145,7 +146,7 @@ public class Starter {
 	   		// TODO?? sp = read(sp,"System: Do you want to use the session persistance? (Y|n|default)","Y","n","default");
 	       	break;
        case "client":
-   			new Client(lb_ip, lb_name, intensity, name,digits);
+   			new Client(lb_ip, lb_name, intensity, name,digits,Type.NORMAL);
 	   		// TODO type = read(type,"System: What type of service do you want to use? (normal|cpu|ram|io|mixed|default)","normal","cpu","ram","io","mixed","default");
 	        break;
        case "many-servers":
@@ -158,7 +159,7 @@ public class Starter {
 	   		break;    
        case "sys":
        		new WeightedRR("wrr-loadbalancingserver","");
-   			new Client("127.0.0.1","wrr-loadbalancingserver", 2, "cl1",10);
+   			new Client("127.0.0.1","wrr-loadbalancingserver", 2, "cl1",10,Type.NORMAL);
     		new Server("127.0.0.1","wrr-loadbalancingserver", 5, "S1");
 
 			// new SimulateClients("127.0.0.1","aba-loadbalancingserver",20,1); //starting 4 Clients with an delay of 2000 sec
