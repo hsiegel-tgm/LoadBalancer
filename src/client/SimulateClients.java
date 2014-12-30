@@ -3,6 +3,16 @@ package client;
 
 public class SimulateClients {
 	public SimulateClients(String loadbalancerIP, String loadbalancerName,int num,int delay_sec)  {
+		System.out.print("Starting "+num+" Clients.");
+		for(int i = 0; i<5; ++i){
+			try {
+				Thread.sleep(333);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.print(".");
+		}			
+		System.out.print("\n");
 		for(int i = 0; i<num;++i){
 			
 			try {

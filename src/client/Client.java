@@ -27,7 +27,7 @@ public class Client implements Runnable {
 		} catch (NotBoundException e) {
 			Log.error("Server not bound: "+loadbalancerName);
 		}
-		Log.info("Started "+m_clientname + " with the intensity "+m_intensity+ " ... ");
+		Log.log("Started "+m_clientname + " with the intensity "+m_intensity+ " ... ");
 		
 		m_thread = new Thread(this);
 		m_thread.start();
@@ -37,7 +37,7 @@ public class Client implements Runnable {
 		while(true){
 			try {
 				Thread.sleep(m_intensity);
-				Log.debug(m_clientname+ " got a response: " + m_balancer.pi().toEngineeringString());
+				Log.logRes(m_clientname+ " got a response: " + m_balancer.pi().toEngineeringString());
 			} catch (RemoteException e1) {
 				Log.error("There was an Remote Exception");
 			}

@@ -20,7 +20,7 @@ public class AgentBasedAdaptive implements Balancer{
 	// private String server_weighted[];
 	// private int m_iterator;
 	
-	public AgentBasedAdaptive(String name) {
+	public AgentBasedAdaptive(String name,String sp) {
 		Balancer x;
 		//Exporting stub
 		try {
@@ -36,7 +36,7 @@ public class AgentBasedAdaptive implements Balancer{
 		} catch (RemoteException e) {
 			System.out.println("There was a remote exception while exporting the Object: "+e.getMessage());
 		}
-		Log.info("Started Agent Based Adaptive LB ... ");
+		Log.logMin("Started Agent Based Adaptive LB ... ");
 	}
 	
 	/* public BigDecimal pi() {
@@ -178,10 +178,10 @@ public class AgentBasedAdaptive implements Balancer{
 		
 	
 	public BigDecimal pi() {
-		Log.debug("LB got the request ... ");
+		Log.logMax("LB got the request ... ");
 		
 		if ( m_servers.size() <= 0){
-			Log.info("There is no server which could handle this request!");
+			Log.logMax("There is no server which could handle this request!");
 			return new CalculatorImpl().pi(); //TODO is this the right thing to do??
 		}else{
 			
@@ -198,7 +198,7 @@ public class AgentBasedAdaptive implements Balancer{
 	
 	public boolean register(ServerCalculator s,String name) throws RemoteException {
 		m_servers.put(name,s);
-		Log.info("Server " +name+ " registered at LoadBalancer. Current number of servers: "+m_servers.size() );
+		Log.logMax("Server " +name+ " registered at LoadBalancer. Current number of servers: "+m_servers.size() );
 		return true;
 	}
 

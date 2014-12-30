@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import main.Log;
+import server.CalculatorImpl;
 import server.Server;
 import server.ServerCalculator;
 
@@ -22,7 +23,7 @@ public class WeightedRR implements Balancer {
 	private String server_weighted[];
 	private int m_iterator;
 	
-	public WeightedRR(String name) {
+	public WeightedRR(String name,String sp) {
 		Balancer x;
 		//Exporting stub
 		try {
@@ -38,7 +39,7 @@ public class WeightedRR implements Balancer {
 		} catch (RemoteException e) {
 			System.out.println("There was a remote exception while exporting the Object:"+e.getMessage());
 		}
-		Log.info("Started Weighted Round Robin LB ... ");
+		Log.logMin("Started Weighted Round Robin LB ... ");
 	}
 	
 	/* public BigDecimal pi() {
@@ -113,7 +114,7 @@ public class WeightedRR implements Balancer {
 			number += obj;
 		}
 		
-		Log.debug("Allocation has found out a total amount of "+ number +" units");
+		Log.logAlg("Allocation has found out a total amount of "+ number +" units");
 		
 		String servers[] = new String[number];
 		
@@ -138,9 +139,12 @@ public class WeightedRR implements Balancer {
 			availiable_servers = availiable_servers2;
 		}
 		
+		String s= "";
 		for(int i =0 ; i< number; i++){
-			Log.debug(servers[i]);
+			s = s+ servers[i] + "";
 		}
+		Log.logAlg(s);
+
 		availiable_servers.clear();
 		
 		while(m_iterator != 0) {}
@@ -162,28 +166,27 @@ public class WeightedRR implements Balancer {
 		return num;
 	}
 	
-	public BigDecimal pi() {
-		Log.debug("LB got the request ... ");
+	public BigDecimal pi() throws RemoteException{
+		Log.logMax("LB got the request ... ");
 		
-		ServerCalculator server_choosen = (ServerCalculator) m_servers.get(server_weighted[m_iterator]);
-		m_iterator++;
-		
-		if(m_iterator==server_weighted.length){
-			m_iterator = 0;
-		}
-		
-		try {
+		if ( m_servers.size() <= 0){
+			Log.logMax("There is no server which could handle this request!");
+			return new CalculatorImpl().pi(); //TODO is this the right thing to do?? 
+		}else{
+			ServerCalculator server_choosen = (ServerCalculator) m_servers.get(server_weighted[m_iterator]);
+			m_iterator++;
+			
+			if(m_iterator==server_weighted.length)
+				m_iterator = 0;
+			
 			return server_choosen.pi();
-		} catch (RemoteException e) {
-			Log.error("There was a remote Exception while communicating with the Server");
-			return new BigDecimal(3.14);
 		}
 	}
 	
 	public boolean register(ServerCalculator s,String name) throws RemoteException {
 		m_servers.put(name,s);
-		Log.info("Server " +name+ " registered at LoadBalancer. Current number of servers: "+m_servers.size() );
-		Log.debug("Calling allocation...");
+		Log.logMax("Server " +name+ " registered at LoadBalancer. Current number of servers: "+m_servers.size() );
+		Log.logAlg("Calling allocation because "+name+" has registered...");
 		allocate();
 		return true;
 	}

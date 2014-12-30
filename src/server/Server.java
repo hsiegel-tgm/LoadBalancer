@@ -45,7 +45,7 @@ public class Server implements ServerCalculator{
 			Log.error("There was an remote exception: " + e.getMessage());
 		}
 		
-		Log.info("Started " +m_servername+ " with the weight "+m_weight+ " ... ");
+		Log.log("Started " +m_servername+ " with the weight "+m_weight+ " ... ");
 	}
 
 	public int getWeight() {
@@ -54,7 +54,7 @@ public class Server implements ServerCalculator{
 
 	public int getCurrentWeight() {
 		int weight = (int)(Math.random()*100)+1;
-		Log.info(m_servername + "has the load: "+weight);
+		Log.logAlg(m_servername + "has the load: "+weight);
 		return weight; //TODO
 	}
 
@@ -80,7 +80,7 @@ public class Server implements ServerCalculator{
 
 	@Override
 	public BigDecimal pi() throws RemoteException {
-		Log.info(m_servername+": Just got a request!");
+		Log.logAlg(m_servername+": Just got a request!");
 		return m_calc.pi();
 	}
 
