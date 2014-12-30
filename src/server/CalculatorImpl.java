@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
 
+import client.Client;
+
 public class CalculatorImpl implements Calculator, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -62,7 +64,7 @@ public class CalculatorImpl implements Calculator, Serializable {
 		return result;
 	}
 
-	public BigDecimal pi(int digits,Type type) {
+	public BigDecimal pi(int digits,Type type,String c) {
 		// setting the server busy
 		m_busy = true;
 		// computing PI
@@ -77,8 +79,8 @@ public class CalculatorImpl implements Calculator, Serializable {
 		return m_busy;
 	}
 
-	public BigDecimal pi(Type type) {
-		int digits = (int)((Math.random()*1000)+1);
-		return pi(digits,type);
+	public BigDecimal pi(Type type,String c) {
+		int digits = (int)((Math.random()*1000)+1); //TODO different.. ?  THIS METHOD SHOULD NEVER BE NEEDED...
+		return pi(digits,type,c);
 	}
 }

@@ -11,6 +11,7 @@ public class Log {
 	private static boolean m_min = true;
 	private static boolean m_normal = false;
 	private static boolean m_max = false;
+	private static boolean m_session = false;
 
 	private static boolean m_algorithms = false;
 	private static boolean m_results = false;
@@ -26,6 +27,10 @@ public class Log {
 	
 	public static void setAlgorithmLogging(boolean b){
 		m_algorithms = b;
+	}
+	
+	public static void setSessionLogging(boolean b){
+		m_session = b;
 	}
 	
 	public static void setResultLogging(boolean b){
@@ -88,10 +93,11 @@ public class Log {
      * Logs a message with error priority
      * @param message the message to be logged
      */
-    public static void error(String message) {
+    public static void error(String message,Exception e) {
         // logger.debug(message);
      	String a = ( new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ) ).format( Calendar.getInstance().getTime() );
      	System.out.println("\n ------------- \n "+ a+" [ERROR]: "+message);
+     	e.printStackTrace(); //TODO weg wieder :)
     }
 
     /**

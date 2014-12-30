@@ -9,6 +9,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import client.Client;
 import main.Log;
 import server.Calculator;
 import server.CalculatorImpl;
@@ -17,10 +18,8 @@ import server.ServerCalculator;
 
 public class AgentBasedAdaptive implements Balancer{
 	private HashMap<String, ServerCalculator> m_servers = new HashMap<String,ServerCalculator>();
-	// private String server_weighted[];
-	// private int m_iterator;
 	
-	public AgentBasedAdaptive(String name,String sp) {
+	public AgentBasedAdaptive(String name,boolean sp) {
 		Balancer x;
 		//Exporting stub
 		try {
@@ -46,7 +45,7 @@ public class AgentBasedAdaptive implements Balancer{
 			 try {
 				num += obj.getWeight();
 			} catch (RemoteException e) {
-				Log.error("There was an remote exception when communication with one of the servers");
+				Log.error("There was an remote exception when communication with one of the servers",e);
 			}
 		}
 		return num;
@@ -69,20 +68,20 @@ public class AgentBasedAdaptive implements Balancer{
 	}
 		
 	
-	public BigDecimal pi(Type type) {
+	public BigDecimal pi(Type type,Client c) {
 		Log.logMax("LB got the request ... ");
 		
 		if ( m_servers.size() <= 0){
 			Log.logMax("There is no server which could handle this request!");
-			return new CalculatorImpl().pi(type); //TODO is this the right thing to do??
+			return new CalculatorImpl().pi(type,c); //TODO is this the right thing to do??
 		}else{
 			
 			ServerCalculator server_choosen =null;
 			try {
 				server_choosen = getServer();
-				return server_choosen.pi(type);
+				return server_choosen.pi(type,c);
 			} catch (RemoteException e1) {
-				Log.error("There was an problem while communicating with the Servers");
+				Log.error("There was an problem while communicating with the Servers",e1);
 				return null;
 			}
 		}
@@ -99,11 +98,11 @@ public class AgentBasedAdaptive implements Balancer{
 		return true;
 	}
 
-	public BigDecimal pi(int digits,Type type) throws RemoteException {
+	public BigDecimal pi(int digits,Type type,Client c) throws RemoteException {
 		Log.logMax("LB got the request ... ");
 		ServerCalculator server_choosen = getServer();
 		if(server_choosen != null)
-			return server_choosen.pi(digits,type);
+			return server_choosen.pi(digits,type,c);
 		else
 			return null;
 

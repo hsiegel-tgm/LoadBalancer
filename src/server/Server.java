@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 
 import main.Log;
 import balancer.Balancer;
@@ -13,6 +14,7 @@ import balancer.Register;
 import client.Client;
 
 public class Server implements ServerCalculator{
+	private HashMap<String, Integer> m_session_clients = new HashMap<String,Integer>();
 
 	private final int m_weight;
 	private Balancer m_balancer;
@@ -29,9 +31,9 @@ public class Server implements ServerCalculator{
 			m_balancer = (Balancer) registry.lookup(loadbalancerName);
 			
 		} catch (RemoteException e) {
-			Log.error("There was a remote error, could not find registry on "+loadbalancerIP);
+			Log.error("There was a remote error, could not find registry on "+loadbalancerIP,e);
 		} catch (NotBoundException e) {
-			Log.error("Server not bound: "+loadbalancerName);
+			Log.error("Server not bound: "+loadbalancerName,e);
 			System.exit(-1);
 		}
 		
@@ -43,9 +45,8 @@ public class Server implements ServerCalculator{
 			m_balancer.register(x, servername);
 
 		} catch (RemoteException e) {
-			Log.error("There was an remote exception: " + e.getMessage());
+			Log.error("There was an remote exception.",e);
 		}
-		
 		Log.log("Started " +m_servername+ " with the weight "+m_weight+ " ... ");
 	}
 
@@ -59,13 +60,28 @@ public class Server implements ServerCalculator{
 		return weight; //TODO
 	}
 
-	public BigDecimal pi(Type type) throws RemoteException {
-		Log.logAlg(m_servername+": Just got a request!");
-		return m_calc.pi(type);
+	public BigDecimal pi(Type type,String c) throws RemoteException {
+		Log.logAlg(m_servername+" just got a request from "+c);
+		return m_calc.pi(type,c);
 	}
 
-	public BigDecimal pi(int digits, Type type) throws RemoteException {
-		Log.logAlg(m_servername+": Just got a request!");
-		return m_calc.pi(digits,type);
+	public BigDecimal pi(int digits, Type type,String c) throws RemoteException {
+		Log.logAlg(m_servername+" just got a request from "+c);
+
+		int new_digits;
+		if(m_session_clients.containsKey(c)){
+			int v = m_session_clients.get(c).intValue();
+			new_digits = (v+digits)/2;
+			m_session_clients.put(c, new_digits);
+		}else{
+			m_session_clients.put(c, digits);
+			new_digits = digits;
+		}
+		Log.logSession(m_servername+" just added an session information about "+c+": He wanted "+new_digits +" digits.");
+		return m_calc.pi(digits,type,c);
+	}
+	
+	public String getName(){
+		return m_servername;
 	}
 }

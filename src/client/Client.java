@@ -1,5 +1,6 @@
 package client;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -32,9 +33,9 @@ public class Client implements Runnable {
 			Registry registry = LocateRegistry.getRegistry(loadbalancerIP,1099);
 			m_balancer = (Balancer) registry.lookup(loadbalancerName);
 		} catch (RemoteException e) {
-			Log.error("There was a remote error, could not find registry on "+loadbalancerIP+ " with the name" + loadbalancerName);
+			Log.error("There was a remote error, could not find registry on "+loadbalancerIP,e);
 		} catch (NotBoundException e) {
-			Log.error("Server not bound: "+loadbalancerName);
+			Log.error("Server not bound: "+loadbalancerName,e);
 		}
 		Log.log("Started "+m_clientname + " with the intensity "+m_intensity+ " ... ");
 		
@@ -47,13 +48,13 @@ public class Client implements Runnable {
 		while(true){
 			try {
 				Thread.sleep(m_intensity);
-				BigDecimal pi =  m_balancer.pi(m_digits,m_type);
+				BigDecimal pi =  m_balancer.pi(m_digits,m_type,this.getName()); //TODO this oder thread?
 				if(pi!= null)
 					Log.logRes(m_clientname+ " got a response: " + pi.toEngineeringString());
 				else
 					Log.warn("Client didn't get any response");
 				turns ++;
-				if(turns%10 == 0){
+				if(turns % 5 == 0){
 					int multiplicator = (int)((Math.random()*3))-1;
 					int new_digits  = m_digits +  (int)((Math.random()*10)+1)*multiplicator;
 					if(new_digits<=0)
@@ -62,12 +63,15 @@ public class Client implements Runnable {
 					m_digits = new_digits;
 				}
 			} catch (RemoteException e1) {
-				Log.error("There was an Remote Exception");
+				Log.error("There was an Remote Exception",e1);
 			}
 			catch (InterruptedException e) {
 				Log.warn("The Thread was interrupted.");
 			}
 		}
 	}
-
+	
+	public String getName(){
+		return m_clientname;
+	}
 }

@@ -38,7 +38,7 @@ public class Starter {
 		String log_res = "n"; //default: N
 		String lb_ip="";
 		String lb_name="";
-		String name = "";
+		String name = "loadbalancer";
 		int digits = 0;
 		int num = 20;
 		int delay = 1;
@@ -51,6 +51,8 @@ public class Starter {
 			method = read(method,"System: What load balancing method do you want to use? (wrr|aba|default)","wrr","aba","default");
 			type = read(type,"System: What type of service do you want to use? (normal|cpu|ram|io|mixed|default)","normal","cpu","ram","io","mixed","default");
 			sp = read(sp,"System: Do you want to use the session persistance? (Y|n|default)","Y","n","default");
+    		num = readInt("System: How many clients do you want to generate?",0,1000);
+
 			 break;
 	            
         case "lb":
@@ -118,13 +120,21 @@ public class Starter {
 			System.out.print(".");
 		}			
 		System.out.print("\n");
-		
+ 	   boolean session_per=false;
+
 		switch (service) {
 		 case "all":
-			 if(method.equals("")){
-	           		new WeightedRR(name,sp);
+	    	   if(sp.equalsIgnoreCase("y"))
+	    		   session_per = true;
+	    	   else
+	    		   session_per = false;
+			
+	    	 Log.setSessionLogging(session_per);
+
+			 if(method.equals("wrr")){
+	           		new WeightedRR(name,session_per);
 	    	 }else{
-	           		new AgentBasedAdaptive(name,sp);
+	           		new AgentBasedAdaptive(name,session_per);
 	    	 }
 			new SimulateClients("127.0.0.1",name,num,delay); //starting 4 Clients with an delay of 2000 sec
 			new SimulateServers("127.0.0.1",name,num/10,delay); //starting 2 Servers with an delay of 7000 sec
@@ -134,15 +144,21 @@ public class Starter {
 			break;
 	            
        case "lb":
+    	   	if(sp.equalsIgnoreCase("y"))
+    		   session_per = true;
+    	   	else
+    		   session_per = false;
+			Log.setSessionLogging(session_per);
+
     	   	if(method.equals("wrr")){
-           		new WeightedRR(name,sp);
+           		new WeightedRR(name,session_per);
     	   	}else{
-           		new AgentBasedAdaptive(name,sp);
+           		new AgentBasedAdaptive(name,session_per);
     	   	}
 			break;
+			
        case "server":
     		new Server(lb_ip, lb_name, capacity, name);
-	   		// TODO?? sp = read(sp,"System: Do you want to use the session persistance? (Y|n|default)","Y","n","default");
 	       	break;
        case "client":
    			new Client(lb_ip, lb_name, intensity, name,digits,Type.NORMAL);
@@ -157,10 +173,11 @@ public class Starter {
 	   		// TODO type = read(type,"System: What type of service do you want to use? (normal|cpu|ram|io|mixed|default)","normal","cpu","ram","io","mixed","default");
 	   		break;    
        case "sys":
-       		new WeightedRR("wrr-loadbalancingserver","");
-   			new Client("127.0.0.1","wrr-loadbalancingserver", 2, "cl1",10,Type.NORMAL);
-    		new Server("127.0.0.1","wrr-loadbalancingserver", 5, "S1");
-
+       		new WeightedRR("wrr-loadbalancingserver",true);
+   			new Client("127.0.0.1","wrr-loadbalancingserver", 2, "Client1",10,Type.NORMAL);
+    		new Server("127.0.0.1","wrr-loadbalancingserver", 5, "Server1");
+    		new Client("127.0.0.1","wrr-loadbalancingserver", 2, "Client2",6,Type.NORMAL);
+    		new Server("127.0.0.1","wrr-loadbalancingserver", 3, "Server2");
 			// new SimulateClients("127.0.0.1","aba-loadbalancingserver",20,1); //starting 4 Clients with an delay of 2000 sec
 			// new SimulateServers("127.0.0.1","aba-loadbalancingserver",5,7); //starting 2 Servers with an delay of 7000 sec
            break;
