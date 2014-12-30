@@ -37,7 +37,7 @@ public class Client implements Runnable {
 		while(true){
 			try {
 				Thread.sleep(m_intensity);
-				Log.info(m_clientname+ " got a response: " + m_balancer.pi().toEngineeringString());
+				Log.debug(m_clientname+ " got a response: " + m_balancer.pi().toEngineeringString());
 			} catch (RemoteException e1) {
 				Log.error("There was an Remote Exception");
 			}

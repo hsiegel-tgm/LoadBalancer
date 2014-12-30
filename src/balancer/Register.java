@@ -9,6 +9,6 @@ import server.Server;
 import server.ServerCalculator;
 
 public interface Register extends Serializable {
-	public void register(ServerCalculator c,String name)  throws RemoteException;
-	public void unregister(ServerCalculator c,String name)  throws RemoteException;
+	public boolean register(ServerCalculator c,String name)  throws RemoteException;
+	public boolean unregister(ServerCalculator c,String name)  throws RemoteException;
 }

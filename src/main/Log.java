@@ -15,7 +15,7 @@ public class Log {
     public static void debug(String message) {
        // logger.debug(message);
     	String a = ( new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ) ).format( Calendar.getInstance().getTime() );
-    	// System.out.println(a+" [DEBUG]: "+message);
+    	//System.out.println(a+" [DEBUG]: "+message);
     	
     }
 

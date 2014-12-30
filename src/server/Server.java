@@ -53,7 +53,9 @@ public class Server implements ServerCalculator{
 	}
 
 	public int getCurrentWeight() {
-		return 0; //TODO
+		int weight = (int)(Math.random()*100)+1;
+		Log.info(m_servername + "has the load: "+weight);
+		return weight; //TODO
 	}
 
 	@Override
@@ -78,7 +80,7 @@ public class Server implements ServerCalculator{
 
 	@Override
 	public BigDecimal pi() throws RemoteException {
-		Log.debug(m_servername+": Just got a request!");
+		Log.info(m_servername+": Just got a request!");
 		return m_calc.pi();
 	}
 

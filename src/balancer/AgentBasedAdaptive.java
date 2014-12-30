@@ -8,21 +8,19 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import main.Log;
+import server.Calculator;
+import server.CalculatorImpl;
 import server.Server;
 import server.ServerCalculator;
 
-
-public class WeightedRR implements Balancer {
+public class AgentBasedAdaptive implements Balancer{
 	private HashMap<String, ServerCalculator> m_servers = new HashMap<String,ServerCalculator>();
-	private String server_weighted[];
-	private int m_iterator;
+	// private String server_weighted[];
+	// private int m_iterator;
 	
-	public WeightedRR(String name) {
+	public AgentBasedAdaptive(String name) {
 		Balancer x;
 		//Exporting stub
 		try {
@@ -36,9 +34,9 @@ public class WeightedRR implements Balancer {
 		} catch (AlreadyBoundException e) {
 			System.out.println("Load Balancer already bound, can not bound it again");
 		} catch (RemoteException e) {
-			System.out.println("There was a remote exception while exporting the Object:"+e.getMessage());
+			System.out.println("There was a remote exception while exporting the Object: "+e.getMessage());
 		}
-		Log.info("Started Weighted Round Robin LB ... ");
+		Log.info("Started Agent Based Adaptive LB ... ");
 	}
 	
 	/* public BigDecimal pi() {
@@ -95,7 +93,7 @@ public class WeightedRR implements Balancer {
 	} */
 	
 	
-	private void allocate(){
+	/*private void allocate(){
 		HashMap<String, Integer> availiable_servers = new HashMap<String,Integer>();
 
 		for (Entry entry : m_servers.entrySet()) {
@@ -146,7 +144,7 @@ public class WeightedRR implements Balancer {
 		while(m_iterator != 0) {}
 		
 		server_weighted = servers;
-	}
+	}*/
 	
 	
 	private int getNumbers(){
@@ -162,29 +160,45 @@ public class WeightedRR implements Balancer {
 		return num;
 	}
 	
+	private ServerCalculator getServer() throws RemoteException{
+		String servers_capacities = "";
+		int smallest_load = 101;
+
+		for (Entry entry : m_servers.entrySet()) {
+			ServerCalculator server = (ServerCalculator) entry.getValue();
+			int load = server.getCurrentWeight();
+			if(load < smallest_load){
+				smallest_load = load;
+				servers_capacities =  entry.getKey().toString();
+			}
+		}
+		
+		return m_servers.get(servers_capacities);
+	}
+		
+	
 	public BigDecimal pi() {
 		Log.debug("LB got the request ... ");
 		
-		ServerCalculator server_choosen = (ServerCalculator) m_servers.get(server_weighted[m_iterator]);
-		m_iterator++;
-		
-		if(m_iterator==server_weighted.length){
-			m_iterator = 0;
-		}
-		
-		try {
-			return server_choosen.pi();
-		} catch (RemoteException e) {
-			Log.error("There was a remote Exception while communicating with the Server");
-			return new BigDecimal(3.14);
+		if ( m_servers.size() <= 0){
+			Log.info("There is no server which could handle this request!");
+			return new CalculatorImpl().pi(); //TODO is this the right thing to do??
+		}else{
+			
+			ServerCalculator server_choosen =null;
+			try {
+				server_choosen = getServer();
+				return server_choosen.pi();
+			} catch (RemoteException e1) {
+				Log.error("There was an problem while communicating with the Servers");
+				return null;
+			}
 		}
 	}
 	
 	public boolean register(ServerCalculator s,String name) throws RemoteException {
 		m_servers.put(name,s);
 		Log.info("Server " +name+ " registered at LoadBalancer. Current number of servers: "+m_servers.size() );
-		Log.debug("Calling allocation...");
-		allocate();
 		return true;
 	}
 
@@ -215,4 +229,5 @@ public class WeightedRR implements Balancer {
 	public BigDecimal pi(int digits) throws RemoteException {
 		return null;
 	}
+	
 }
