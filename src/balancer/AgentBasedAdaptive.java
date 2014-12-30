@@ -18,8 +18,11 @@ import server.ServerCalculator;
 
 public class AgentBasedAdaptive implements Balancer{
 	private HashMap<String, ServerCalculator> m_servers = new HashMap<String,ServerCalculator>();
+	private HashMap<String, String> m_session = new HashMap<String, String>();
+	private boolean session_persistance = false;
 	
 	public AgentBasedAdaptive(String name,boolean sp) {
+		session_persistance = sp;
 		Balancer x;
 		//Exporting stub
 		try {
@@ -51,40 +54,58 @@ public class AgentBasedAdaptive implements Balancer{
 		return num;
 	}
 	
-	private ServerCalculator getServer() throws RemoteException{
-		String servers_capacities = "";
-		int smallest_load = 101;
-
-		for (Entry entry : m_servers.entrySet()) {
-			ServerCalculator server = (ServerCalculator) entry.getValue();
-			int load = server.getCurrentWeight();
-			if(load < smallest_load){
-				smallest_load = load;
-				servers_capacities =  entry.getKey().toString();
-			}
-		}
-		
-		return m_servers.get(servers_capacities);
-	}
-		
-	
-	public BigDecimal pi(Type type,Client c) {
-		Log.logMax("LB got the request ... ");
+	private ServerCalculator getServer(String c) throws RemoteException{
 		
 		if ( m_servers.size() <= 0){
 			Log.logMax("There is no server which could handle this request!");
-			return new CalculatorImpl().pi(type,c); //TODO is this the right thing to do??
-		}else{
-			
-			ServerCalculator server_choosen =null;
-			try {
-				server_choosen = getServer();
-				return server_choosen.pi(type,c);
-			} catch (RemoteException e1) {
-				Log.error("There was an problem while communicating with the Servers",e1);
-				return null;
-			}
+			return null;
 		}
+		else{
+			ServerCalculator choosen_server = null;
+			//if session persistance should be used, and the client has already a server as a friend, and this server is still availiable...
+			if(session_persistance && m_session.containsKey(c) && m_servers.containsKey(m_session.get(c))){
+				choosen_server = m_servers.get(m_session.get(c));
+				Log.logSession(c+" has already a server to whom he was referred to: "+m_session.get(c),3);
+				if(!(choosen_server.getCurrentWeight()<80)){
+					Log.logSession(c+" has already a server to whom he was referred to: "+choosen_server.getName() +" but he is too busy.",2);
+					m_session.remove(choosen_server.getName());
+					choosen_server = null;
+				}
+			}
+			if(choosen_server == null){
+				String servers_capacities = "";
+				int smallest_load = 101;
+
+				for (Entry entry : m_servers.entrySet()) {
+					ServerCalculator server = (ServerCalculator) entry.getValue();
+					int load = server.getCurrentWeight();
+					if(load < smallest_load){
+						smallest_load = load;
+						servers_capacities =  entry.getKey().toString();
+					}
+				}
+				
+				choosen_server =  m_servers.get(servers_capacities);
+				
+				if(!m_session.containsKey(c)){
+					m_session.put(c, choosen_server.getName());
+				}
+				
+				Log.logSession(c+" is using the service for the first time. His choosen server is "+choosen_server.getName(),2);
+
+			}
+			return choosen_server;
+		}
+	}
+		
+	
+	public BigDecimal pi(Type type,String c) throws RemoteException {
+		Log.logMax("LB got an request from " + c);
+		ServerCalculator server_choosen = getServer(c);
+		if (server_choosen != null)
+			return server_choosen.pi(type, c);
+		else
+			return null;
 	}
 	
 	public boolean register(ServerCalculator s,String name) throws RemoteException {
@@ -98,9 +119,9 @@ public class AgentBasedAdaptive implements Balancer{
 		return true;
 	}
 
-	public BigDecimal pi(int digits,Type type,Client c) throws RemoteException {
+	public BigDecimal pi(int digits,Type type,String c) throws RemoteException {
 		Log.logMax("LB got the request ... ");
-		ServerCalculator server_choosen = getServer();
+		ServerCalculator server_choosen = getServer(c);
 		if(server_choosen != null)
 			return server_choosen.pi(digits,type,c);
 		else

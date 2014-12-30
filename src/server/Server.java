@@ -77,14 +77,14 @@ public class Server implements ServerCalculator{
 
 		int new_digits;
 		if(m_session_clients.containsKey(c)){
-			int v = m_session_clients.get(c).intValue();
-			new_digits = (v+(2*digits))/3;
-			m_session_clients.put(c, new_digits);
+			//int v = m_session_clients.get(c).intValue();
+			//new_digits = (v+(2*digits))/3;
+			m_session_clients.put(c, digits);
 		}else{
 			m_session_clients.put(c, digits);
 			new_digits = digits;
 		}
-		Log.logSession(m_servername+" just added an session information about "+c+": He wanted "+new_digits +" digits.",2);
+		Log.logSession(m_servername+" just added an session information about "+c+": He wanted "+digits +" digits.",2);
 		return m_calc.pi(digits,type,c);
 	}
 	

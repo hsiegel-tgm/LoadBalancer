@@ -170,7 +170,7 @@ public class Starter {
 	   		// TODO type = read(type,"System: What type of service do you want to use? (normal|cpu|ram|io|mixed|default)","normal","cpu","ram","io","mixed","default");
 	   		break;    
        case "sys":
-       		new WeightedRR("wrr-loadbalancingserver",true);
+       		new AgentBasedAdaptive("wrr-loadbalancingserver",true);
    			new Client("127.0.0.1","wrr-loadbalancingserver", 2, "Client1",10,Type.NORMAL);
     		new Server("127.0.0.1","wrr-loadbalancingserver", 5, "Server1");
     		new Client("127.0.0.1","wrr-loadbalancingserver", 2, "Client2",6,Type.NORMAL);
