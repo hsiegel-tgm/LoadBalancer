@@ -32,6 +32,7 @@ public class Server implements ServerCalculator{
 			Log.error("There was a remote error, could not find registry on "+loadbalancerIP+ " with the name" + loadbalancerName);
 		} catch (NotBoundException e) {
 			Log.error("Server not bound: "+loadbalancerName);
+			System.exit(-1);
 		}
 		
 		ServerCalculator x;
@@ -58,34 +59,29 @@ public class Server implements ServerCalculator{
 		return weight; //TODO
 	}
 
-	@Override
 	public BigDecimal pi_ram() throws RemoteException {
 		return null;
 	}
 
-	@Override
 	public BigDecimal pi_cpu() throws RemoteException {
 		return null;
 	}
 
-	@Override
 	public BigDecimal pi_io() throws RemoteException {
 		return null;
 	}
 
-	@Override
 	public BigDecimal pi_sessionPers() throws RemoteException {
 		return null;
 	}
 
-	@Override
 	public BigDecimal pi() throws RemoteException {
 		Log.logAlg(m_servername+": Just got a request!");
 		return m_calc.pi();
 	}
 
-	@Override
 	public BigDecimal pi(int digits) throws RemoteException {
+		Log.logAlg(m_servername+": Just got a request!");
 		return m_calc.pi(digits);
 	}
 }

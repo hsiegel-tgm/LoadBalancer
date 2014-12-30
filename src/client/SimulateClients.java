@@ -21,7 +21,7 @@ public class SimulateClients {
 			}
 			
 			int intensivity_sec = (int)(Math.random()*10)+1;
-			new Client(loadbalancerIP,loadbalancerName,intensivity_sec*1000,"Client"+i);
+			new Client(loadbalancerIP,loadbalancerName,intensivity_sec,"Client"+i,0);
 		}
 	}
 }

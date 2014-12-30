@@ -8,7 +8,7 @@ public class Log {
 
    //private static Logger logger = LogManager.getLogger();
 
-	private static boolean m_min = false;
+	private static boolean m_min = true;
 	private static boolean m_normal = false;
 	private static boolean m_max = false;
 
@@ -17,14 +17,10 @@ public class Log {
 
 	public static void setIntensity(String s){
 		if(s.equalsIgnoreCase("max")){
-			m_min = true;
 			m_normal=true;
 			m_max = true;
 		}else if(s.equalsIgnoreCase("normal")){
-			m_min = true;
 			m_normal=true;
-		}else{
-			m_min = true;
 		}
 	}
 	
@@ -42,6 +38,12 @@ public class Log {
     	if(m_results)
     		System.out.println(a+" [RESULT]: "+message);
     }
+    
+    public static void logSession(String message) {
+    	String a = ( new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ) ).format( Calendar.getInstance().getTime() );
+    	if(m_normal)
+    		System.out.println(a+" [SESSION]: "+message);		
+	}
     
     public static void logAlg(String message) {
         // logger.debug(message);
@@ -100,4 +102,8 @@ public class Log {
      	String a = ( new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ) ).format( Calendar.getInstance().getTime() );
      	System.out.println( a+" [WARNING]: "+message);   
      }
+
+	
+
+
 }

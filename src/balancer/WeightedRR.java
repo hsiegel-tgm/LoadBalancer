@@ -42,59 +42,6 @@ public class WeightedRR implements Balancer {
 		Log.logMin("Started Weighted Round Robin LB ... ");
 	}
 	
-	/* public BigDecimal pi() {
-		Log.debug("LB got the request");
-		if(m_servers.size()>0){
-			for (Entry entry : m_servers.entrySet()) {
-				 //getting key
-				 String key = entry.getKey().toString();
-				 ServerCalculator obj = (ServerCalculator) entry.getValue();
-				 try {
-					 Log.debug("Sending the request to the server ... name: "+key);
-					return obj.pi();
-				} catch (RemoteException  e) {
-					e.printStackTrace();
-				}
-			}
-			Log.debug("Calculated pi...");
-		}
-		else{
-			Log.info("Sorry. But there is no server availiable.");
-		}
-		return null;
-	} */
-	
-	/* private void allocate(){
-		HashMap<String, Integer> availiable_servers = new HashMap<String,Integer>();
-
-		for (Entry entry : m_servers.entrySet()) {
-			 ServerCalculator obj = (ServerCalculator) entry.getValue();
-			 try {
-				 availiable_servers.put(entry.getKey().toString(),  obj.getWeight()); 
-			} catch (RemoteException e) {
-				Log.error("There was an remote exception when communication with one of the servers");
-			}
-		}
-		
-		int number = 0;
-		for (Entry entry : availiable_servers.entrySet()) {
-			Integer obj = (Integer) entry.getValue();
-			number += obj;
-		}
-		
-		Log.debug("Allocation has found out a total amount of "+ number +" units");
-		
-		int servers[] = new int[number];
-		
-		int already_allocated = 0;
-		
-		for(int j = 0 ; j < number ; ++j ){
-			if()
-			servers[j]
-		}
-		
-	} */
-	
 	
 	private void allocate(){
 		HashMap<String, Integer> availiable_servers = new HashMap<String,Integer>();
@@ -166,12 +113,10 @@ public class WeightedRR implements Balancer {
 		return num;
 	}
 	
-	public BigDecimal pi() throws RemoteException{
-		Log.logMax("LB got the request ... ");
-		
+	public ServerCalculator chooseServer(){
 		if ( m_servers.size() <= 0){
 			Log.logMax("There is no server which could handle this request!");
-			return new CalculatorImpl().pi(); //TODO is this the right thing to do?? 
+			return null;
 		}else{
 			ServerCalculator server_choosen = (ServerCalculator) m_servers.get(server_weighted[m_iterator]);
 			m_iterator++;
@@ -179,8 +124,18 @@ public class WeightedRR implements Balancer {
 			if(m_iterator==server_weighted.length)
 				m_iterator = 0;
 			
-			return server_choosen.pi();
+			return server_choosen;
 		}
+	}
+	
+	
+	public BigDecimal pi() throws RemoteException{
+		Log.logMax("LB got the request ... ");
+		ServerCalculator server_choosen = chooseServer();
+		if(server_choosen != null)
+			return server_choosen.pi();
+		else
+			return null;
 	}
 	
 	public boolean register(ServerCalculator s,String name) throws RemoteException {
@@ -212,10 +167,12 @@ public class WeightedRR implements Balancer {
 		return null;
 	}
 
-	
-
-	@Override
 	public BigDecimal pi(int digits) throws RemoteException {
-		return null;
+		Log.logMax("LB got the request ... ");
+		ServerCalculator server_choosen = chooseServer();
+		if(server_choosen != null)
+			return server_choosen.pi(digits);
+		else
+			return null;
 	}
 }

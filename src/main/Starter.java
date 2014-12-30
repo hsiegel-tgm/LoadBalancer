@@ -39,6 +39,7 @@ public class Starter {
 		String lb_ip="";
 		String lb_name="";
 		String name = "";
+		int digits = 0;
 		int num = 20;
 		int delay = 1;
 		int capacity = 5;
@@ -70,6 +71,8 @@ public class Starter {
     		lb_name = readNormal("System: What is the loadbalancers lookup name");
     		name =  readNormal("System: What should the service be called?");
     		intensity = readInt("System: With which intensity should you client send requests? Please enter a number in seconds",0,100);
+    		digits = readInt("System: How many digits should be calculated?",0,10000);
+
             break;
         case "many-servers":
     		sp = read(sp,"System: Do you want to use the session persistance? (Y|n|default)","Y","n","default");
@@ -131,7 +134,7 @@ public class Starter {
 			break;
 	            
        case "lb":
-    	   	if(method.equals("")){
+    	   	if(method.equals("wrr")){
            		new WeightedRR(name,sp);
     	   	}else{
            		new AgentBasedAdaptive(name,sp);
@@ -142,7 +145,7 @@ public class Starter {
 	   		// TODO?? sp = read(sp,"System: Do you want to use the session persistance? (Y|n|default)","Y","n","default");
 	       	break;
        case "client":
-   			new Client(lb_ip, lb_name, intensity, name);
+   			new Client(lb_ip, lb_name, intensity, name,digits);
 	   		// TODO type = read(type,"System: What type of service do you want to use? (normal|cpu|ram|io|mixed|default)","normal","cpu","ram","io","mixed","default");
 	        break;
        case "many-servers":
@@ -154,9 +157,12 @@ public class Starter {
 	   		// TODO type = read(type,"System: What type of service do you want to use? (normal|cpu|ram|io|mixed|default)","normal","cpu","ram","io","mixed","default");
 	   		break;    
        case "sys":
-       		new AgentBasedAdaptive("aba-loadbalancingserver","");
-			new SimulateClients("127.0.0.1","aba-loadbalancingserver",20,1); //starting 4 Clients with an delay of 2000 sec
-			new SimulateServers("127.0.0.1","aba-loadbalancingserver",5,7); //starting 2 Servers with an delay of 7000 sec
+       		new WeightedRR("wrr-loadbalancingserver","");
+   			new Client("127.0.0.1","wrr-loadbalancingserver", 2, "cl1",10);
+    		new Server("127.0.0.1","wrr-loadbalancingserver", 5, "S1");
+
+			// new SimulateClients("127.0.0.1","aba-loadbalancingserver",20,1); //starting 4 Clients with an delay of 2000 sec
+			// new SimulateServers("127.0.0.1","aba-loadbalancingserver",5,7); //starting 2 Servers with an delay of 7000 sec
            break;
 		}
 	}
