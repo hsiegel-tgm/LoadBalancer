@@ -128,7 +128,6 @@ public class WeightedRR implements Balancer {
 		}
 	}
 	
-	
 	public BigDecimal pi(Type type) throws RemoteException{
 		Log.logMax("LB got the request ... ");
 		ServerCalculator server_choosen = chooseServer();
@@ -149,22 +148,6 @@ public class WeightedRR implements Balancer {
 	public boolean unregister(ServerCalculator s,String name) throws RemoteException {
 		m_servers.remove(name,s);
 		return true;
-	}
-
-	public BigDecimal pi_cpu() throws RemoteException {
-		return null;
-	}
-
-	public BigDecimal pi_io() throws RemoteException {
-		return null;
-	}
-
-	public BigDecimal pi_ram()  throws RemoteException {
-		return null;
-	}
-
-	public BigDecimal pi_sessionPers()  throws RemoteException {
-		return null;
 	}
 
 	public BigDecimal pi(int digits,Type type) throws RemoteException {

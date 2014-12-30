@@ -13,7 +13,6 @@ import balancer.AgentBasedAdaptive;
 import balancer.WeightedRR;
 
 public class Starter {
-
 	public static void main(String arg[]) throws IOException {
 		String policy = "grant{permission java.security.AllPermission;};";
 		System.setProperty("java.security.policy", policy.toString());

@@ -39,114 +39,6 @@ public class AgentBasedAdaptive implements Balancer{
 		Log.logMin("Started Agent Based Adaptive LB ... ");
 	}
 	
-	/* public BigDecimal pi() {
-		Log.debug("LB got the request");
-		if(m_servers.size()>0){
-			for (Entry entry : m_servers.entrySet()) {
-				 //getting key
-				 String key = entry.getKey().toString();
-				 ServerCalculator obj = (ServerCalculator) entry.getValue();
-				 try {
-					 Log.debug("Sending the request to the server ... name: "+key);
-					return obj.pi();
-				} catch (RemoteException  e) {
-					e.printStackTrace();
-				}
-			}
-			Log.debug("Calculated pi...");
-		}
-		else{
-			Log.info("Sorry. But there is no server availiable.");
-		}
-		return null;
-	} */
-	
-	/* private void allocate(){
-		HashMap<String, Integer> availiable_servers = new HashMap<String,Integer>();
-
-		for (Entry entry : m_servers.entrySet()) {
-			 ServerCalculator obj = (ServerCalculator) entry.getValue();
-			 try {
-				 availiable_servers.put(entry.getKey().toString(),  obj.getWeight()); 
-			} catch (RemoteException e) {
-				Log.error("There was an remote exception when communication with one of the servers");
-			}
-		}
-		
-		int number = 0;
-		for (Entry entry : availiable_servers.entrySet()) {
-			Integer obj = (Integer) entry.getValue();
-			number += obj;
-		}
-		
-		Log.debug("Allocation has found out a total amount of "+ number +" units");
-		
-		int servers[] = new int[number];
-		
-		int already_allocated = 0;
-		
-		for(int j = 0 ; j < number ; ++j ){
-			if()
-			servers[j]
-		}
-		
-	} */
-	
-	
-	/*private void allocate(){
-		HashMap<String, Integer> availiable_servers = new HashMap<String,Integer>();
-
-		for (Entry entry : m_servers.entrySet()) {
-			 ServerCalculator obj = (ServerCalculator) entry.getValue();
-			 try {
-				 availiable_servers.put(entry.getKey().toString(),  obj.getWeight()); 
-			} catch (RemoteException e) {
-				Log.error("There was an remote exception when communication with one of the servers");
-			}
-		}
-		
-		int number = 0;
-		for (Entry entry : availiable_servers.entrySet()) {
-			Integer obj = (Integer) entry.getValue();
-			number += obj;
-		}
-		
-		Log.debug("Allocation has found out a total amount of "+ number +" units");
-		
-		String servers[] = new String[number];
-		
-		int already_allocated = 0;
-		
-		while (already_allocated < number ){
-			for (Entry entry : availiable_servers.entrySet()) {
-				Integer capcity = (Integer) entry.getValue();
-				if(capcity>0){
-					String key = entry.getKey().toString();
-					servers[already_allocated] = key;
-					already_allocated++;
-				}
-			}
-			
-			HashMap<String, Integer> availiable_servers2 = new HashMap<String,Integer>();
-
-			for (Entry entry : availiable_servers.entrySet()) {
-				Integer capcity = (Integer) entry.getValue();
-				availiable_servers2.put(entry.getKey().toString(),capcity-1);
-			}
-			availiable_servers = availiable_servers2;
-		}
-		
-		for(int i =0 ; i< number; i++){
-			Log.debug(servers[i]);
-		}
-		availiable_servers.clear();
-		
-		while(m_iterator != 0) {}
-		
-		server_weighted = servers;
-	}*/
-	
-	
 	private int getNumbers(){
 		int num = 0;
 		for (Entry entry : m_servers.entrySet()) {
@@ -205,22 +97,6 @@ public class AgentBasedAdaptive implements Balancer{
 	public boolean unregister(ServerCalculator s,String name) throws RemoteException {
 		m_servers.remove(name,s);
 		return true;
-	}
-
-	public BigDecimal pi_cpu() throws RemoteException {
-		return null;
-	}
-
-	public BigDecimal pi_io() throws RemoteException {
-		return null;
-	}
-
-	public BigDecimal pi_ram()  throws RemoteException {
-		return null;
-	}
-
-	public BigDecimal pi_sessionPers()  throws RemoteException {
-		return null;
 	}
 
 	public BigDecimal pi(int digits,Type type) throws RemoteException {

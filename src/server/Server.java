@@ -59,22 +59,6 @@ public class Server implements ServerCalculator{
 		return weight; //TODO
 	}
 
-	public BigDecimal pi_ram() throws RemoteException {
-		return null;
-	}
-
-	public BigDecimal pi_cpu() throws RemoteException {
-		return null;
-	}
-
-	public BigDecimal pi_io() throws RemoteException {
-		return null;
-	}
-
-	public BigDecimal pi_sessionPers() throws RemoteException {
-		return null;
-	}
-
 	public BigDecimal pi(Type type) throws RemoteException {
 		Log.logAlg(m_servername+": Just got a request!");
 		return m_calc.pi(type);

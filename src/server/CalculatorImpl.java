@@ -81,20 +81,4 @@ public class CalculatorImpl implements Calculator, Serializable {
 		int digits = (int)((Math.random()*1000)+1);
 		return pi(digits,type);
 	}
-
-	public BigDecimal pi_cpu() {
-		return null;
-	}
-
-	public BigDecimal pi_io() {
-		return null;
-	}
-
-	public BigDecimal pi_ram() {
-		return null;
-	}
-
-	public BigDecimal pi_sessionPers() {
-		return null;
-	}
 }
