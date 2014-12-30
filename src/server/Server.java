@@ -64,10 +64,10 @@ public class Server implements ServerCalculator{
 		Log.logAlg(m_servername+" just got a request from "+c);
 		if(m_session_clients.containsKey(c)){
 			int digits = m_session_clients.get(c);
-			Log.logSession(m_servername+" got an request from "+c+" . He didn't specify the digits, so he took "+digits+ "digits");
+			Log.logSession(m_servername+" got an request from "+c+" . He didn't specify the digits, so he took "+digits+ "digits",1);
 			return m_calc.pi(digits,type,c);
 		}			
-		Log.logSession(m_servername+" got an request from "+c+" . It was his first request and therefore he couldnt specify any digits.");
+		Log.logSession(m_servername+" got an request from "+c+" . It was his first request and therefore he couldnt specify any digits.",2);
 		return m_calc.pi(type,c);
 
 	}
@@ -78,13 +78,13 @@ public class Server implements ServerCalculator{
 		int new_digits;
 		if(m_session_clients.containsKey(c)){
 			int v = m_session_clients.get(c).intValue();
-			new_digits = (v+digits)/2;
+			new_digits = (v+(2*digits))/3;
 			m_session_clients.put(c, new_digits);
 		}else{
 			m_session_clients.put(c, digits);
 			new_digits = digits;
 		}
-		Log.logSession(m_servername+" just added an session information about "+c+": He wanted "+new_digits +" digits.");
+		Log.logSession(m_servername+" just added an session information about "+c+": He wanted "+new_digits +" digits.",2);
 		return m_calc.pi(digits,type,c);
 	}
 	

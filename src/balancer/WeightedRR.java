@@ -133,9 +133,9 @@ public class WeightedRR implements Balancer {
 			//if session persistance should be used, and the client has already a server as a friend, and this server is still availiable...
 			if(session_persistance && m_session.containsKey(c) && m_servers.containsKey(m_session.get(c))){
 				choosen_server = m_servers.get(m_session.get(c));
-				Log.logSession(c+" has already a server to whom he was referred to: "+m_session.get(c));
+				Log.logSession(c+" has already a server to whom he was referred to: "+m_session.get(c),3);
 				if(!(choosen_server.getCurrentWeight()<80)){
-					Log.logSession(c+" has already a server to whom he was referred to: "+choosen_server.getName() +" but he is too busy.");
+					Log.logSession(c+" has already a server to whom he was referred to: "+choosen_server.getName() +" but he is too busy.",2);
 					m_session.remove(choosen_server.getName());
 					choosen_server = null;
 				}
@@ -149,7 +149,7 @@ public class WeightedRR implements Balancer {
 				if(!m_session.containsKey(c)){
 					m_session.put(c, choosen_server.getName());
 				}
-				Log.logSession(c+" is using the service for the first time. His choosen server is "+choosen_server.getName());
+				Log.logSession(c+" is using the service for the first time. His choosen server is "+choosen_server.getName(),2);
 
 			}
 			return choosen_server;

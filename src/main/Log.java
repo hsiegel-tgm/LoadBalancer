@@ -44,10 +44,14 @@ public class Log {
     		System.out.println(a+" [RESULT]: "+message);
     }
     
-    public static void logSession(String message) {
+    public static void logSession(String message,int prio) {
     	String a = ( new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ) ).format( Calendar.getInstance().getTime() );
-    	if(m_session)
-    		System.out.println(a+" [SESSION]: "+message);		
+    	if(prio == 1 &&m_session)
+    		System.out.println(a+" [SESSION]: "+message);	
+    	if(prio == 2 && m_session && m_normal)
+    		System.out.println(a+" [SESSION]: "+message);	
+    	if(prio == 3 && m_session && m_max)
+    		System.out.println(a+" [SESSION]: "+message);	
 	}
     
     public static void logAlg(String message) {

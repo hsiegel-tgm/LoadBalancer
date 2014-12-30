@@ -65,7 +65,7 @@ public class Client implements Runnable {
 					int new_digits  = m_digits +  (int)((Math.random()*10)+1)*multiplicator;
 					if(new_digits<=0)
 						new_digits = 10;
-					Log.logSession(m_clientname+" just changed it digits from "+ m_digits +" to "+ new_digits);
+					Log.logSession(m_clientname+" just changed it digits from "+ m_digits +" to "+ new_digits,1);
 					m_digits = new_digits;
 				}
 			} catch (RemoteException e1) {
