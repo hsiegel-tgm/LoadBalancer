@@ -41,6 +41,7 @@ public class Starter {
 		String name = "loadbalancer";
 		int digits = 0;
 		int num = 20;
+		int num_servers = 5;
 		int delay = 1;
 		int capacity = 5;
 		
@@ -52,9 +53,9 @@ public class Starter {
 			type = read(type,"System: What type of service do you want to use? (normal|cpu|ram|io|mixed|default)","normal","cpu","ram","io","mixed","default");
 			sp = read(sp,"System: Do you want to use the session persistance? (Y|n|default)","Y","n","default");
     		num = readInt("System: How many clients do you want to generate?",0,1000);
-
-			 break;
-	            
+    		num_servers = readInt("System: How many servers do you want to generate?",0,1000);
+    		delay = readInt("System: With which delay should the services be generated? Please enter a number in seconds",-1,100);
+			break;
         case "lb":
 			method = read(method,"System: What load balancing method do you want to use? (wrr|aba|default)","wrr","aba","default");
     		sp = read(sp,"System: Do you want to use the session persistance? (Y|n|default)","Y","n","default");
@@ -74,20 +75,19 @@ public class Starter {
     		name =  readNormal("System: What should the service be called?");
     		intensity = readInt("System: With which intensity should you client send requests? Please enter a number in seconds",0,100);
     		digits = readInt("System: How many digits should be calculated?",0,10000);
-
             break;
         case "many-servers":
     		sp = read(sp,"System: Do you want to use the session persistance? (Y|n|default)","Y","n","default");
     		lb_ip = readNormal("System: Please put in the load Balancer's IP"); //TODO check?
     		lb_name = readNormal("System: What is the loadbalancers lookup name");
-    		num = readInt("System: How many of these services do you want to generate?",0,1000);
+    		num_servers = readInt("System: How many servers do you want to generate?",0,1000);
     		delay = readInt("System: With which delay should the services be generated? Please enter a number in seconds",0,100);
             break;
         case "many-clients":
     		type = read(type,"System: What type of service do you want to use? (normal|cpu|ram|io|mixed|default)","normal","cpu","ram","io","mixed","default");
     		lb_ip = readNormal("System: Please put in the load Balancer's IP"); //TODO check?
     		lb_name = readNormal("System: What is the loadbalancers lookup name");
-    		num = readInt("System: How many of these services do you want to generate?",0,1000);
+    		num = readInt("System: How many Clients do you want to generate?",0,1000);
     		delay = readInt("System: With which delay should the services be generated? Please enter a number in seconds",0,100);
             break;    
         }
@@ -116,8 +116,25 @@ public class Starter {
 		   else
 			   session_per = false;
 		
-	 	   Log.setSessionLogging(session_per);
-		
+	 	Log.setSessionLogging(session_per);
+
+	 	Type type_wanted = Type.NORMAL;
+	 	
+		switch (type) {
+		 	case "cpu":
+				type_wanted = Type.CPU;
+				break;
+		 	case "ram":
+				type_wanted = Type.RAM;
+				break;
+		 	case "io":
+				type_wanted = Type.IO;
+				break;
+		 	case "mixed":
+				type_wanted = Type.MIXED;
+				break;	
+		}
+	 	   
 		System.out.print("You are done. Starting the program.");
 		for(int i = 0; i<5; ++i){
 			try {
@@ -132,18 +149,13 @@ public class Starter {
 	 
 		switch (service) {
 		 case "all":
-	    	  
-
 			 if(method.equals("wrr")){
 	           		new WeightedRR(name,session_per);
 	    	 }else{
 	           		new AgentBasedAdaptive(name,session_per);
 	    	 }
-			new SimulateClients("127.0.0.1",name,num,delay); //starting 4 Clients with an delay of 2000 sec
-			new SimulateServers("127.0.0.1",name,num/10,delay); //starting 2 Servers with an delay of 7000 sec
-
-			// type = read(type,"System: What type of service do you want to use? (normal|cpu|ram|io|mixed|default)","normal","cpu","ram","io","mixed","default");
-
+			new SimulateServers("127.0.0.1",name,num_servers,delay);
+			new SimulateClients("127.0.0.1",name,num,delay,type_wanted); 
 			break;
 	            
        case "lb":
@@ -157,23 +169,20 @@ public class Starter {
        case "server":
     		new Server(lb_ip, lb_name, capacity, name);
 	       	break;
-       case "client":
-   			new Client(lb_ip, lb_name, intensity, name,digits,Type.NORMAL);
-	   		// TODO type = read(type,"System: What type of service do you want to use? (normal|cpu|ram|io|mixed|default)","normal","cpu","ram","io","mixed","default");
+       case "client":    		
+   			new Client(lb_ip, lb_name, intensity, name,digits,type_wanted,true);
 	        break;
        case "many-servers":
-			new SimulateServers(lb_ip,lb_name,num,delay); //starting 2 Servers with an delay of 7000 sec
-	   		// TODO sp = read(sp,"System: Do you want to use the session persistance? (Y|n|default)","Y","n","default");
+			new SimulateServers(lb_ip,lb_name,num_servers,delay);
 	        break;
        case "many-clients":
-			new SimulateClients(lb_ip,lb_name,num,delay); //starting 4 Clients with an delay of 2000 sec
-	   		// TODO type = read(type,"System: What type of service do you want to use? (normal|cpu|ram|io|mixed|default)","normal","cpu","ram","io","mixed","default");
+			new SimulateClients(lb_ip,lb_name,num,delay,type_wanted); 
 	   		break;    
        case "sys":
        		new AgentBasedAdaptive("wrr-loadbalancingserver",true);
-   			new Client("127.0.0.1","wrr-loadbalancingserver", 2, "Client1",10,Type.NORMAL);
+   			new Client("127.0.0.1","wrr-loadbalancingserver", 2, "Client1",10,Type.NORMAL,true);
     		new Server("127.0.0.1","wrr-loadbalancingserver", 5, "Server1");
-    		new Client("127.0.0.1","wrr-loadbalancingserver", 2, "Client2",6,Type.NORMAL);
+    		new Client("127.0.0.1","wrr-loadbalancingserver", 2, "Client2",6,Type.NORMAL,true);
     		new Server("127.0.0.1","wrr-loadbalancingserver", 3, "Server2");
 			Log.setSessionLogging(true);
 

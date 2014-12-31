@@ -20,9 +20,10 @@ public class Client implements Runnable {
 	private int m_digits;
 	private Type m_type;
 
-	public Client(String loadbalancerIP, String loadbalancerName, int intensity,String clientname,int digits,Type type) {
+	public Client(String loadbalancerIP, String loadbalancerName, int intensity,String clientname,int digits,Type type,boolean log) {
 		this.m_intensity = intensity*1000;
 		this.m_clientname = clientname;
+		this.m_type = type;
 		
 		if(digits == 0)
 			this.m_digits = (int)((Math.random()*50)+1);
@@ -37,7 +38,8 @@ public class Client implements Runnable {
 		} catch (NotBoundException e) {
 			Log.error("Server not bound: "+loadbalancerName,e);
 		}
-		Log.log("Started "+m_clientname + " with the intensity "+m_intensity+ " ... ");
+		if(log)
+			Log.logMin("Started "+m_clientname + " with the intensity "+m_intensity+ " ... ");
 		
 		m_thread = new Thread(this);
 		m_thread.start();
@@ -57,7 +59,7 @@ public class Client implements Runnable {
 				if(pi!= null)
 					Log.logRes(m_clientname+ " got a response: " + pi.toEngineeringString());
 				else
-					Log.warn("Client didn't get any response");
+					Log.warn(m_clientname+" didn't get any response");
 				
 				turns ++;
 				if(turns % 5 == 0){

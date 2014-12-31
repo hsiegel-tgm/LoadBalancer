@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
 
+import main.Log;
 import client.Client;
 
 public class CalculatorImpl implements Calculator, Serializable {
@@ -65,12 +66,26 @@ public class CalculatorImpl implements Calculator, Serializable {
 	}
 
 	public BigDecimal pi(int digits,Type type,String c) {
-		// setting the server busy
 		m_busy = true;
-		// computing PI
-		BigDecimal res = computePi(digits);
-		// setting the server free
+		BigDecimal res = null;
+		if(type == Type.NORMAL){
+			res = computePi(digits);
+		}
+		else if(type == Type.CPU){
+			
+		}
+		else if(type == Type.RAM){
+			
+		}
+		else if(type == Type.IO){
+			
+		}
+		else if(type == Type.MIXED){
+			
+		}
+
 		m_busy = false;
+		
 		// returning PI
 		return res;
 	}
