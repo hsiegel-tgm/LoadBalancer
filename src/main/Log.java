@@ -87,8 +87,8 @@ public class Log {
      * @param message the message to be logged
      */
     public static void debug(String message) {
-    	String a = ( new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ) ).format( Calendar.getInstance().getTime() );
-    	System.out.println(a+" [DEBUG]: "+message);
+    	// String a = ( new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ) ).format( Calendar.getInstance().getTime() );
+    	// System.out.println(a+" [DEBUG]: "+message);
     	
     }
 

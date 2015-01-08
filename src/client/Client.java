@@ -23,6 +23,7 @@ public class Client implements Runnable {
 	private Thread m_thread;
 	//Balancer
 	private Balancer m_balancer;
+	
 	private int m_intensity;
 	private String m_clientname;
 	private int m_digits;
@@ -89,7 +90,7 @@ public class Client implements Runnable {
 					Type current_type = types[iterator];
 					
 					// every second turn is not giving any digit information
-					if(turns % 7 == 0)
+					if(turns % 4 == 0 && !first)
 						pi = m_balancer.pi(current_type,this.getName()); 
 					else	
 						pi = m_balancer.pi(m_digits,current_type,this.getName()); 
@@ -99,7 +100,7 @@ public class Client implements Runnable {
 						iterator = 0;
 					
 				}else{
-					if(turns % 3 == 0 && !first){
+					if(turns % 4 == 0 && !first){
 						Log.debug(m_clientname+" is calling without info");
 						pi = m_balancer.pi(m_type,this.getName()); 
 					}

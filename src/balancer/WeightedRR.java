@@ -33,7 +33,7 @@ public class WeightedRR implements Balancer {
 	private HashMap<String, String> m_session = new HashMap<String, String>();
 	
 	//The server weighted
-	private String server_weighted[];
+	private String m_serverWeighted[];
 	
 	private int m_iterator;
 	private boolean m_sessionPersistance = false;
@@ -125,7 +125,7 @@ public class WeightedRR implements Balancer {
 
 		//set the allocated values
 		while (m_iterator != 0){}
-		server_weighted = servers;
+		m_serverWeighted = servers;
 	}
 
 	/**
@@ -166,16 +166,16 @@ public class WeightedRR implements Balancer {
 				
 				//get the next server 'in line'
 				try{
-					choosen_server = (ServerCalculator) m_servers.get(server_weighted[m_iterator]);
+					choosen_server = (ServerCalculator) m_servers.get(m_serverWeighted[m_iterator]);
 				}catch(ArrayIndexOutOfBoundsException e){
-					choosen_server = (ServerCalculator) m_servers.get(server_weighted[0]);
+					choosen_server = (ServerCalculator) m_servers.get(m_serverWeighted[0]);
 					m_iterator = 0;
 				}
 				
 				m_iterator++;
 				
 				//reset iterartor	
-				if(m_iterator==server_weighted.length)
+				if(m_iterator==m_serverWeighted.length)
 						m_iterator = 0;
 				
 				

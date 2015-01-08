@@ -84,7 +84,6 @@ public class Server implements ServerCalculator{
 	
 	
 	
-	//TODO get current bla
 	/* (non-Javadoc)
 	 * @see server.ServerCalculator#getCurrentWeight()
 	 */
@@ -94,7 +93,8 @@ public class Server implements ServerCalculator{
 		Log.debug("ram: "+ram);
 
 		    
-		int weight = (int)(Math.random()*100)+1;
+		int weight = (int)(Math.random()*50)+1;
+		weight = weight + (int)(getCurrentRAMLoad()/2);
 		Log.logAlg(m_servername + "has the load: "+weight);
 		return weight; //TODO
 	}
