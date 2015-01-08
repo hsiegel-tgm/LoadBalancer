@@ -18,17 +18,12 @@ import balancer.Balancer;
 import balancer.WeightedRR;
 
 public class BalancerWRRTest {
-	
-	//@Test
-	//public void normalStartup() {
-	//	new WeightedRR("wrr-loadbalancingserver");
-	 //} 
-	
+
 	@Test
 	public void testRegister() {
 		boolean erg = false;
 		try{
-			new WeightedRR("wrr-loadbalancingserver");
+			new WeightedRR("wrr-loadbalancingserver", false);
 		
 			Registry registry = LocateRegistry.getRegistry("127.0.0.1");
 			Balancer b = (Balancer) registry.lookup("wrr-loadbalancingserver");

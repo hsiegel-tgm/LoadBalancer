@@ -5,10 +5,31 @@ import java.rmi.RemoteException;
 
 import client.Client;
 
+/**
+ * @author Hannah Siegel
+ * @version 2014-30-12
+ *
+ */
 public interface Calculator extends java.rmi.Remote {
 	public enum Type {
 	    NORMAL, CPU, RAM, IO, MIXED
 	}
-	public BigDecimal pi(Type type,String c) throws RemoteException;
-	public BigDecimal pi(int digits,Type type,String c) throws RemoteException;
+	
+	/**
+	 * @param type - cpu / ram / io / mixed / noting
+	 * @param clientname
+	 * @return
+	 * @throws RemoteException
+	 */
+	public BigDecimal pi(Type type,String clientname) throws RemoteException;
+	/**
+	 * Calculates pi
+	 * 
+	 * @param digits
+	 * @param type - cpu / ram / io / mixed / noting
+	 * @param clientname
+	 * @return
+	 * @throws RemoteException
+	 */
+	public BigDecimal pi(int digits,Type type,String clientname) throws RemoteException;
 }
