@@ -23,14 +23,14 @@ public class BalancerWRRTest {
 	public void testRegister() {
 		boolean erg = false;
 		try{
-			new WeightedRR("wrr-loadbalancingserver", false);
+			// new WeightedRR("wrr-loadbalancingserver", false);
 		
-			Registry registry = LocateRegistry.getRegistry("127.0.0.1");
-			Balancer b = (Balancer) registry.lookup("wrr-loadbalancingserver");
+			// Registry registry = LocateRegistry.getRegistry("127.0.0.1");
+			// Balancer b = (Balancer) registry.lookup("wrr-loadbalancingserver");
 		
-			ServerCalculator x = (ServerCalculator) UnicastRemoteObject.exportObject(new CalculatorImpl(), 0);
+			// ServerCalculator x = (ServerCalculator) UnicastRemoteObject.exportObject(new CalculatorImpl(), 0);
 		
-			erg = b.register(x, "S1");
+			// erg = b.register(x, "S1");
 		
 		}catch(Exception e){}
 		

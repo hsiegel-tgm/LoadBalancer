@@ -89,7 +89,6 @@ public class Log {
     public static void debug(String message) {
     	// String a = ( new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ) ).format( Calendar.getInstance().getTime() );
     	// System.out.println(a+" [DEBUG]: "+message);
-    	
     }
 
     /**
@@ -98,8 +97,7 @@ public class Log {
      */
     public static void error(String message,Exception e) {
      	String a = ( new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ) ).format( Calendar.getInstance().getTime() );
-     	System.out.println("\n ------------- \n "+ a+" [ERROR]: "+message);
-     	e.printStackTrace(); //TODO weg wieder :)
+     	System.out.println("\n ------------- \n "+ a+" [ERROR]: "+message +" - "+e.getMessage());
     }
 
     /**

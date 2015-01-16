@@ -21,7 +21,7 @@ public interface Calculator extends java.rmi.Remote {
 	 * @return
 	 * @throws RemoteException
 	 */
-	public BigDecimal pi(Type type,String clientname) throws RemoteException;
+	public BigDecimal pi(Type type,String clientname,int id) throws RemoteException;
 	/**
 	 * Calculates pi
 	 * 
@@ -31,5 +31,5 @@ public interface Calculator extends java.rmi.Remote {
 	 * @return
 	 * @throws RemoteException
 	 */
-	public BigDecimal pi(int digits,Type type,String clientname) throws RemoteException;
+	public BigDecimal pi(int digits,Type type,String clientname,int id) throws RemoteException;
 }

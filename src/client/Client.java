@@ -78,6 +78,7 @@ public class Client implements Runnable {
 		//possible types
 		Type types[] ={Type.NORMAL,Type.CPU,Type.IO,Type.RAM};
 		boolean first = true;
+		int request_count = 1;
 		while(true){
 			try {
 				//wait
@@ -91,9 +92,9 @@ public class Client implements Runnable {
 					
 					// every second turn is not giving any digit information
 					if(turns % 4 == 0 && !first)
-						pi = m_balancer.pi(current_type,this.getName()); 
+						pi = m_balancer.pi(current_type,this.getName(),request_count); 
 					else	
-						pi = m_balancer.pi(m_digits,current_type,this.getName()); 
+						pi = m_balancer.pi(m_digits,current_type,this.getName(),request_count); 
 					iterator++;
 					
 					if(iterator == types.length)
@@ -102,12 +103,12 @@ public class Client implements Runnable {
 				}else{
 					if(turns % 4 == 0 && !first){
 						Log.debug(m_clientname+" is calling without info");
-						pi = m_balancer.pi(m_type,this.getName()); 
+						pi = m_balancer.pi(m_type,this.getName(),request_count); 
 					}
 					else{	
 						Log.debug(m_clientname+" is calling with "+m_digits);
 
-						pi = m_balancer.pi(m_digits,m_type,this.getName());
+						pi = m_balancer.pi(m_digits,m_type,this.getName(),request_count);
 					}
 				}
 
@@ -136,6 +137,7 @@ public class Client implements Runnable {
 				Log.warn("The Thread was interrupted.");
 			}
 			first = false;
+			request_count++;
 		}
 	}
 	

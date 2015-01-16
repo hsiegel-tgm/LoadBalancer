@@ -130,14 +130,14 @@ public class AgentBasedAdaptive implements Balancer{
 	/* (non-Javadoc)
 	 * @see server.Calculator#pi(server.Calculator.Type, java.lang.String)
 	 */
-	public BigDecimal pi(Type type,String c) throws RemoteException {
+	public BigDecimal pi(Type type,String c,int id) throws RemoteException {
 		Log.logMax("LB got an request from " + c);
 		//get the server to handle the request
 		ServerCalculator server_choosen = getServer(c);
 		
 		//return pi or null
 		if (server_choosen != null)
-			return server_choosen.pi(type, c);
+			return server_choosen.pi(type, c,id);
 		else 
 			return null;
 	}
@@ -162,7 +162,7 @@ public class AgentBasedAdaptive implements Balancer{
 	/* (non-Javadoc)
 	 * @see server.Calculator#pi(int, server.Calculator.Type, java.lang.String)
 	 */
-	public BigDecimal pi(int digits,Type type,String c) throws RemoteException {
+	public BigDecimal pi(int digits,Type type,String c, int id) throws RemoteException {
 		Log.logMax("LB got the request ... ");
 		
 		//choose the server
@@ -170,7 +170,7 @@ public class AgentBasedAdaptive implements Balancer{
 		
 		//return pi
 		if(server_choosen != null)
-			return server_choosen.pi(digits,type,c);
+			return server_choosen.pi(digits,type,c,id);
 		else
 			return null;
 	}

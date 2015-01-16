@@ -171,7 +171,7 @@ public class CalculatorImpl implements Calculator, Serializable {
 		//return pi.setScale(digits, BigDecimal.ROUND_HALF_UP);
 	}
 	
-	public BigDecimal pi(int digits,Type type,String c) {
+	public BigDecimal pi(int digits,Type type,String c,int id) {
 		m_busy = true;
 		BigDecimal res = null;
 		if(type == Type.NORMAL){
@@ -197,9 +197,9 @@ public class CalculatorImpl implements Calculator, Serializable {
 		return m_busy;
 	}
 
-	public BigDecimal pi(Type type,String c) {
+	public BigDecimal pi(Type type,String c,int id) {
 		int digits = (int)((Math.random()*1000)+1); //TODO different.. ?  THIS METHOD SHOULD NEVER BE NEEDED...
-		return pi(digits,type,c);
+		return pi(digits,type,c,id);
 	}
 	
 	

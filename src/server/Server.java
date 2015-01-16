@@ -131,8 +131,8 @@ public class Server implements ServerCalculator{
 	/* (non-Javadoc)
 	 * @see server.Calculator#pi(server.Calculator.Type, java.lang.String)
 	 */
-	public BigDecimal pi(Type type,String c) throws RemoteException {
-		Log.logAlg(m_servername+" just got a request from "+c);
+	public BigDecimal pi(Type type,String c, int id) throws RemoteException {
+		Log.logAlg(m_servername+" just got a request from "+c+" with the request - id"+id);
 		
 		// if the server know how many digits the client wants (session persistance)
 		if(m_session_clients.containsKey(c)){
@@ -143,15 +143,15 @@ public class Server implements ServerCalculator{
 			
 			Log.logSession(m_servername+" got an request from "+c+" . He didn't specify the digits, so he took "+digits+ " digits",1);
 			
-			return m_calc.pi(digits,type,c);
+			return m_calc.pi(digits,type,c,id);
 		}			
 		
 		Log.logSession(m_servername+" got an request from "+c+" . It was his first request and therefore he couldnt specify any digits.",2);
-		return m_calc.pi(type,c);
+		return m_calc.pi(type,c,id);
 	}
 
-	public BigDecimal pi(int digits, Type type,String c) throws RemoteException {
-		Log.logAlg(m_servername+" just got the request from "+c);
+	public BigDecimal pi(int digits, Type type,String c,int id) throws RemoteException {
+		Log.logAlg(m_servername+" just got the request from "+c+" with the request - id"+id);
 		
 		//adding the session information
 		m_session_clients.put(c, digits);
@@ -165,7 +165,7 @@ public class Server implements ServerCalculator{
 		//}
 		Log.logSession(m_servername+" just added an session information about "+c+": He wanted "+digits +" digits.",2);
 		
-		return m_calc.pi(digits,type,c);
+		return m_calc.pi(digits,type,c,id);
 	}
 	
 	/* (non-Javadoc)

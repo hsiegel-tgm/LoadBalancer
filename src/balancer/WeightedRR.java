@@ -220,7 +220,7 @@ public class WeightedRR implements Balancer {
 	/* (non-Javadoc)
 	 * @see server.Calculator#pi(server.Calculator.Type, java.lang.String)
 	 */
-	public BigDecimal pi(Type type, String client_name) throws RemoteException {
+	public BigDecimal pi(Type type, String client_name,int id) throws RemoteException {
 		Log.logMax("LB got an request from " + client_name);
 		
 		//get server
@@ -228,7 +228,7 @@ public class WeightedRR implements Balancer {
 		
 		//return pi
 		if (server_choosen != null)
-			return server_choosen.pi(type, client_name);
+			return server_choosen.pi(type, client_name,id);
 		else
 			return null;
 	}
@@ -236,7 +236,7 @@ public class WeightedRR implements Balancer {
 	/* (non-Javadoc)
 	 * @see server.Calculator#pi(int, server.Calculator.Type, java.lang.String)
 	 */
-	public BigDecimal pi(int digits, Type type, String client_name)throws RemoteException {
+	public BigDecimal pi(int digits, Type type, String client_name,int id)throws RemoteException {
 		Log.logMax("LB got an request from " + client_name);
 		
 		//get Server
@@ -244,7 +244,7 @@ public class WeightedRR implements Balancer {
 		
 		//return pi
 		if (server_choosen != null)
-			return server_choosen.pi(digits, type, client_name);
+			return server_choosen.pi(digits, type, client_name,id);
 		else
 			return null;
 	}
